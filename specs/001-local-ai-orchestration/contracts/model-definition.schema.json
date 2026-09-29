@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "models.yaml",
+  "type": "object",
+  "required": ["models"],
+  "properties": {
+    "vram_limit_gb": { "type": "number", "minimum": 0 },
+    "models": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/model" }
+    }
+  },
+  "$defs": {
+    "model": {
+      "type": "object",
+      "required": ["id", "lmstudio_id", "capabilities", "priority", "max_context"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "lmstudio_id": { "type": "string", "minLength": 1 },
+        "display_name": { "type": "string" },
+        "capabilities": { "type": "array", "items": { "type": "string" }, "minItems": 1, "uniqueItems": true },
+        "priority": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "max_context": { "type": "integer", "minimum": 1 },
+        "required_vram_gb": { "type": "number", "minimum": 0, "default": 0 },
+        "recommended_settings": {
+          "type": "object",
+          "properties": {
+            "temperature": { "type": "number" },
+            "top_p": { "type": "number" },
+            "max_tokens": { "type": "integer" }
+          }
+        },
+        "output_format": { "enum": ["text", "json", "code", "image"], "default": "text" },
+        "model_type": { "enum": ["llm", "vision", "image_gen"], "default": "llm" },
+        "launch": {
+          "type": "object",
+          "properties": {
+            "method": { "enum": ["jit", "lms_cli"] },
+            "context_length": { "type": "integer", "minimum": 1 }
+          },
+          "additionalProperties": false
+        },
+        "enabled": { "type": "boolean", "default": true }
+      },
+      "additionalProperties": false
+    }
+  }
+}

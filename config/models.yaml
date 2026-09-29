@@ -1,0 +1,48 @@
+# モデル定義。編集すると次のタスクから反映されます（再起動不要）。
+# スキーマ: specs/001-local-ai-orchestration/contracts/model-definition.schema.json
+# 推奨 capability: story, character_design, worldbuilding, analysis, code, review
+# lmstudio_id は `lms ls` の model key と一致させてください。
+
+vram_limit_gb: 24   # 使用可能なVRAM。これを超える required_vram_gb のモデルは選ばれません
+
+models:
+  - id: qwen-27b
+    lmstudio_id: qwen3.8-27b
+    display_name: Qwen 3.8 27B
+    capabilities: [story, character_design, worldbuilding, analysis, review]
+    priority: 80
+    max_context: 32768
+    required_vram_gb: 18
+    recommended_settings: { temperature: 0.7, max_tokens: 4096 }
+    # jit = 初回リクエストでLM Studioが自動ロード（コンテキスト長はLM Studioの既定）
+    # lms_cli = `lms load` を実行。context_length でロード時のコンテキスト長を指定できる
+    launch: { method: lms_cli, context_length: 16384 }
+
+  - id: qwen-9b
+    lmstudio_id: qwen3.8-9b
+    display_name: Qwen 3.8 9B
+    capabilities: [story, character_design, analysis, review]
+    priority: 60
+    max_context: 32768
+    required_vram_gb: 6
+    recommended_settings: { temperature: 0.7, max_tokens: 4096 }
+
+  - id: omnicoder-9b
+    lmstudio_id: ngixdev/omnicoder-qwen3.5-9b-claude-4.6-opus-uncensored-v2
+    display_name: OmniCoder 9B
+    capabilities: [code, review]
+    output_format: code
+    priority: 70
+    max_context: 32768
+    required_vram_gb: 7
+    recommended_settings: { temperature: 0.2, max_tokens: 4096 }
+
+  # 例（無効）: 画像生成は v1 では未対応（README 参照）
+  # - id: animagine-xl
+  #   lmstudio_id: animagine-xl
+  #   capabilities: [character_image]
+  #   model_type: image_gen
+  #   output_format: image
+  #   priority: 50
+  #   max_context: 1
+  #   enabled: false

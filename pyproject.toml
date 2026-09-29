@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-orchestrator"
+version = "0.1.0"
+description = "Claude 統括 + LM Studio ローカルAIサブエージェント用 MCP Orchestrator"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp>=1.2,<2",  # FastMCP API (renamed in 2.x)
+    "httpx>=0.27",
+    "pydantic>=2.6",
+    "PyYAML>=6",
+    "filelock>=3.13",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.23",
+    "respx>=0.21",
+    "ruff>=0.5",
+]
+
+[project.scripts]
+ai-orchestrator = "ai_orchestrator.mcp_server:main"
+ai-orchestrator-cli = "ai_orchestrator.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501", "B017"]

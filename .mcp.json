@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "ai-orchestrator": {
+      "command": "C:\\Users\\koyo\\Downloads\\AIManager\\.venv\\Scripts\\python.exe",
+      "args": ["-m", "ai_orchestrator.mcp_server"],
+      "cwd": "C:\\Users\\koyo\\Downloads\\AIManager",
+      "env": {
+        "AIO_MODELS": "config/models.yaml",
+        "AIO_WORKSPACE": "workspace"
+      }
+    }
+  }
+}
